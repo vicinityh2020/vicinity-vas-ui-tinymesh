@@ -9,35 +9,32 @@ import {Button} from "react-bootstrap";
 class Login extends Component {
     render() {
         return (
-            <Col sm={6} smOffset={3}>
+            <Col xs={12}>
                 <Form horizontal>
                     <FormGroup controlId="formHorizontalEmail">
-                        <Col componentClass={ControlLabel} sm={2}>
+                        <Col componentClass={ControlLabel} xs={2}>
                             Email
                         </Col>
-                        <Col sm={10}>
+                        <Col xs={12}>
                             <FormControl type="email" placeholder="Email"/>
                         </Col>
                     </FormGroup>
 
                     <FormGroup controlId="formHorizontalPassword">
-                        <Col componentClass={ControlLabel} sm={2}>
+                        <Col componentClass={ControlLabel} xs={2}>
                             Password
                         </Col>
-                        <Col sm={10}>
+                        <Col xs={12}>
                             <FormControl type="password" placeholder="Password"/>
                         </Col>
                     </FormGroup>
 
                     <FormGroup>
-                        <Col smOffset={2} sm={10}>
-                            <Checkbox>Remember me</Checkbox>
-                        </Col>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Col smOffset={2} sm={10}>
+                        <Col xs={3}>
                             <Button type="submit" href={"/overview"}>Sign in</Button>
+                        </Col>
+                        <Col xs={6}>
+                            <Checkbox>Remember me</Checkbox>
                         </Col>
                     </FormGroup>
                 </Form>

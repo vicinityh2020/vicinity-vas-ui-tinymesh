@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Button, Col, Glyphicon, Table} from 'react-bootstrap';
+import {Col, Table} from 'react-bootstrap';
+import RoomInfo from "./overviewRow";
 
 
 class Overview extends Component {
@@ -7,6 +8,7 @@ class Overview extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showInfo:false,
             rooms: [{
                 number: 1,
                 visits: 12,
@@ -25,7 +27,7 @@ class Overview extends Component {
 
     render() {
         return (
-            <Col sm={6} smOffset={3}>
+            <Col xs={12}>
                 <Table striped={true} condensed={true}>
                     <thead>
                     <tr>
@@ -38,14 +40,7 @@ class Overview extends Component {
                     </thead>
                     <tbody>
                     {this.state.rooms.map((room) => {
-                        return (
-                            <tr key={room.number}>
-                                <td className={"center"}>{room.number}</td>
-                                <td className={"center"}>{room.visits}</td>
-                                <td className={"center"}>{room.lastCleaned.toString()}</td>
-                                <td className={"center"}>{room.needsCleaning ? (<Glyphicon glyph="remove" className={"red"}/>) : <Glyphicon glyph="ok" className={"green"}/>}</td>
-                                <td className={"center"}><Button bsStyle={"primary"}><Glyphicon glyph="info-sign"/></Button></td>
-                            </tr>)
+                        return (<RoomInfo key={room.number} room={room}/>)
                     })}
                     </tbody>
                 </Table>

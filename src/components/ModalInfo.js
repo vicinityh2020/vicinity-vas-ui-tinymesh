@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Glyphicon, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
+import PropTypes from "prop-types";
 
 const GlyphOK = () => {
     return (<Glyphicon glyph="ok" className={"green"}/>);
@@ -10,6 +11,13 @@ const GlyphNotOk = () => {
 };
 
 class ModalInfo extends Component {
+    static propTypes = {
+        room: PropTypes.object,
+        show: PropTypes.bool,
+        toggleInfo: PropTypes.func,
+        setRoomState: PropTypes.func,
+    };
+
     render() {
         return (
             <Modal show={this.props.show} onHide={this.props.toggleInfo}>
@@ -29,7 +37,11 @@ class ModalInfo extends Component {
                     </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="primary" onClick={this.props.toggleInfo}>Save changes</Button>
+                    <Button bsStyle={"primary"}
+                            onClick={this.props.room.needsCleaning ? () => {
+                                this.props.toggleInfo();
+                                this.props.setRoomState(this.props.room.number);
+                            } : () => {}}>Clean</Button>
                     <Button onClick={this.props.toggleInfo}>Close</Button>
                 </Modal.Footer>
             </Modal>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Col, Table} from 'react-bootstrap';
 import RoomInfo from "./overviewRow";
-
+import update from 'immutability-helper';
 
 class Overview extends Component {
 
@@ -22,7 +22,21 @@ class Overview extends Component {
                 needsCleaning: true,
                 comment: null
             }]
-        }
+        };
+        this.cleanRoom = this.cleanRoom.bind(this);
+    }
+
+    cleanRoom(roomNumber){
+        this.state.rooms.map((room, index) => {
+            if (room.number === roomNumber){
+                let updateObj = {};
+                updateObj[index] = {
+                    needsCleaning: {$set: false},
+                    visits: {$set: 0}
+                };
+                this.setState({rooms: update(this.state.rooms, updateObj)});
+            }
+        });
     }
 
     render() {
@@ -40,7 +54,7 @@ class Overview extends Component {
                     </thead>
                     <tbody>
                     {this.state.rooms.map((room) => {
-                        return (<RoomInfo key={room.number} room={room}/>)
+                        return (<RoomInfo key={room.number} room={room} setRoomState={this.cleanRoom}/>)
                     })}
                     </tbody>
                 </Table>

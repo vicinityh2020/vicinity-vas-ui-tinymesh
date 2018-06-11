@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import {Button, Glyphicon} from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import ModalInfo from "./ModalInfo";
 
-
 class RoomInfo extends Component {
+    static propTypes = {
+        room: PropTypes.object,
+        setRoomState: PropTypes.func
+    };
 
     constructor(props) {
         super(props);
@@ -37,7 +41,8 @@ class RoomInfo extends Component {
 
                 <ModalInfo room={this.props.room}
                            toggleInfo={this.toggleInfo}
-                           show={this.state.showInfo}/>
+                           show={this.state.showInfo}
+                           setRoomState={this.props.setRoomState}/>
             </tr>
         );
     }

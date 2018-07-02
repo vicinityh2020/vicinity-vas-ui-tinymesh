@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Glyphicon} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import ModalInfo from "./ModalInfo";
+import {Link} from "react-router-dom";
 
 class RoomInfo extends Component {
     static propTypes = {
@@ -25,12 +26,13 @@ class RoomInfo extends Component {
     }
 
     render() {
+        const room = this.props.room;
         return (
             <tr key={this.props.room.number}>
-                <td className={"center"}>{this.props.room.number}</td>
-                <td className={"center"}>{this.props.room.visits}</td>
-                <td className={"center"}>{this.props.room.lastCleaned.toString()}</td>
-                <td className={"center"}>{this.props.room.needsCleaning ?
+                <td className={"center"}><Link to={`/overview/${room.name}`}>{room.name}</Link></td>
+                <td className={"center"}>{room.visits}</td>
+                <td className={"center"}>{room.lastCleaned.toString()}</td>
+                <td className={"center"}>{room.needsCleaning ?
                     (<Glyphicon glyph="remove" className={"red"}/>) :
                     <Glyphicon glyph="ok" className={"green"}/>}</td>
                 <td className={"center"}>
@@ -39,7 +41,7 @@ class RoomInfo extends Component {
                     </Button>
                 </td>
 
-                <ModalInfo room={this.props.room}
+                <ModalInfo room={room}
                            toggleInfo={this.toggleInfo}
                            show={this.state.showInfo}
                            setRoomState={this.props.setRoomState}/>

@@ -2,6 +2,16 @@
   "name": "tinym-vas",
   "version": "0.1.0",
   "private": true,
+  "proxy": {
+    "/adapter/*": {
+      "target": "http://localhost:8000",
+      "pathRewrite": {
+        "^/adapter/objects": "/objects",
+        "^/adapter/clean-room/*": "/clean-room/",
+        "^/adapter/room-overview": "/room-overview"
+      }
+    }
+  },
   "dependencies": {
     "immutability-helper": "^2.7.0",
     "prop-types": "^15.6.1",

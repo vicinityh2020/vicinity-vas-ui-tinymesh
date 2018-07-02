@@ -11,6 +11,11 @@ const GlyphNotOk = () => {
 };
 
 class ModalInfo extends Component {
+    constructor(props) {
+        super(props);
+        this.updateRoom = this.updateRoom.bind(this);
+    }
+
     static propTypes = {
         room: PropTypes.object,
         show: PropTypes.bool,
@@ -18,11 +23,29 @@ class ModalInfo extends Component {
         setRoomState: PropTypes.func,
     };
 
+    updateRoom() {
+        // this.props.toggleInfo();
+        // this.props.setRoomState(this.props.room.number);
+        (async () => {
+            fetch(`/adapter/clean-room/${this.props.room.id}`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.props.room)
+            }).then(value => value.json())
+              .then(json => console.log(json))
+              .catch(reason => console.log(reason));
+            this.props.toggleInfo();
+        })();
+    }
+
     render() {
         return (
             <Modal show={this.props.show} onHide={this.props.toggleInfo}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Room {this.props.room.number}</Modal.Title>
+                    <Modal.Title>Room: {this.props.room.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ListGroup>
@@ -33,15 +56,13 @@ class ModalInfo extends Component {
                         </ListGroupItem>
                         <ListGroupItem header="Number of room visits">{this.props.room.visits}</ListGroupItem>
                         <ListGroupItem header="Last Cleaned">{this.props.room.lastCleaned.toString()}</ListGroupItem>
-                        <ListGroupItem header="Comment">{this.props.room.comment ? this.props.room.comment : "No comment"}</ListGroupItem>
+                        <ListGroupItem
+                            header="Comment">{this.props.room.comment ? this.props.room.comment : "No comment"}</ListGroupItem>
                     </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle={"primary"}
-                            onClick={this.props.room.needsCleaning ? () => {
-                                this.props.toggleInfo();
-                                this.props.setRoomState(this.props.room.number);
-                            } : () => {}}>Clean</Button>
+                            onClick={this.updateRoom}>Clean</Button>
                     <Button onClick={this.props.toggleInfo}>Close</Button>
                 </Modal.Footer>
             </Modal>

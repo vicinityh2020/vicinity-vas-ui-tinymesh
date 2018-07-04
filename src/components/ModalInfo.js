@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Glyphicon, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import PropTypes from "prop-types";
+import { Cookies } from 'react-cookie';
 
 const GlyphOK = () => {
     return (<Glyphicon glyph="ok" className={"green"}/>);
@@ -12,6 +13,7 @@ const GlyphNotOk = () => {
 
 class ModalInfo extends Component {
     constructor(props) {
+
         super(props);
         this.updateRoom = this.updateRoom.bind(this);
     }
@@ -27,11 +29,14 @@ class ModalInfo extends Component {
         // this.props.toggleInfo();
         // this.props.setRoomState(this.props.room.number);
         (async () => {
+            let cookie = new Cookies();
+            let csrf = cookie.get('csrftoken');
             fetch(`/adapter/clean-room/${this.props.room.id}`, {
                 method: "POST",
                 credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf,
                 },
                 body: JSON.stringify(this.props.room)
             }).then(value => value.json())

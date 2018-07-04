@@ -12,41 +12,32 @@ class RoomHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            history: [
-                {
-                    datetime: new Date(),
-                    visits: 45,
-                    cleanedBy: 'John Doe',
-                    threshold: 40,
-                    comment: "Hehhee"
-                },
-                {
-                    datetime: new Date(),
-                    visits: 465,
-                    cleanedBy: 'John Doe',
-                    threshold: 40,
-                    comment: "oO this one was filthy :)"
-                },
-                {
-                    datetime: new Date(),
-                    visits: 42,
-                    cleanedBy: 'John Doe',
-                    threshold: 40,
-                    comment: null
-                },
-                {
-                    datetime: new Date(),
-                    visits: 41,
-                    cleanedBy: 'John Doe',
-                    threshold: 40,
-                    comment: "Hehhee"
-                }
-            ]
+            history: null,
         }
     }
 
+    async fetchHistory(){
+        await fetch(`/adapter/clean-room/${this.props.match.params.roomNumber}`, {
+            method: 'GET'
+        }).then(value => {
+            return value.json()
+        }).then(json => {
+            json.sort((a, b) => {
+                // + sign before date forces to get unix timestamp
+                if (+(new Date(a.datetime) > +(new Date(b.datetime)))){
+                    return -1
+                } else if (+(new Date(a.datetime) === +(new Date(b.datetime)))){
+                    return 0
+                } else {
+                    return 1
+                }
+            });
+            this.setState({history: json})
+        })
+    }
+
     infoHeading(cleaningEvent){
-        return  cleaningEvent.cleanedBy + " at "+ cleaningEvent.datetime.toLocaleDateString() + " " + cleaningEvent.datetime.toLocaleTimeString()
+        return  cleaningEvent.cleanedBy + " at "+ cleaningEvent.datetime
     }
 
     renderHistory() {
@@ -80,8 +71,17 @@ class RoomHistory extends Component {
         });
     }
 
-    render() {
+    loading(){
+        return (
+            <Row>
+                <Col xs={12}>
+                    <h3>Loading...</h3>
+                </Col>
+            </Row>
+        )
+    }
 
+    loaded(){
         return (
             <Row>
                 <Col xs={12}>
@@ -89,9 +89,22 @@ class RoomHistory extends Component {
                         History for Room {this.props.match.params.roomNumber}
                     </PageHeader>
                 </Col>
-                {this.renderHistory()}
+                {this.state.history ? this.renderHistory(): this.noEvents()}
             </Row>
+        )
+    }
 
+    componentDidMount(){
+        (async () => await this.fetchHistory())()
+    }
+
+    noEvents() {
+        return <Col xs={12}><h3>No cleanings recorded for this room.</h3></Col>
+    }
+
+    render() {
+        return (
+            <div>{this.state.history ? this.loaded(): this.loading()}</div>
         )
     }
 }

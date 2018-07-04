@@ -29,7 +29,7 @@ class RoomInfo extends Component {
         const room = this.props.room;
         return (
             <tr key={this.props.room.number}>
-                <td className={"center"}><Link to={`/overview/${room.name}`}>{room.name}</Link></td>
+                <td className={"center"}><Link to={`/overview/${room.id}`}>{room.name}</Link></td>
                 <td className={"center"}>{room.visits}</td>
                 <td className={"center"}>{room.lastCleaned.toString()}</td>
                 <td className={"center"}>{room.needsCleaning ?

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Table} from 'react-bootstrap';
+import {Col, Row, Table} from 'react-bootstrap';
 import RoomInfo from "./overviewRow";
 import update from 'immutability-helper';
 
@@ -9,19 +9,6 @@ class Overview extends Component {
         super(props);
         this.state = {
             showInfo: false,
-            // rooms: [{
-            //     number: 1,
-            //     visits: 12,
-            //     lastCleaned: new Date(2018, 6, 2, 13, 37),
-            //     needsCleaning: false,
-            //     comment: null
-            // }, {
-            //     number: 2,
-            //     visits: 65,
-            //     lastCleaned: new Date(2018, 6, 2, 13, 37),
-            //     needsCleaning: true,
-            //     comment: null
-            // }]
             rooms: null
         };
         this.cleanRoom = this.cleanRoom.bind(this);
@@ -41,8 +28,12 @@ class Overview extends Component {
     }
 
     fetchRoomOverview() {
-        fetch('/adapter/room-overview', {credentials: "include"}).then(value => {
-            // console.log(value.headers.has("set-cookie"))
+        fetch('/adapter/room-overview', {
+            credentials: "include",
+            headers: {
+
+            }
+        }).then(value => {
             return value.json();
         }).then(json => {
             console.log(json);

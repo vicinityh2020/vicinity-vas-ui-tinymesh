@@ -3,7 +3,6 @@ import {Panel} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 
-
 class InfoPane extends Component {
     static propTypes = {
         heading: PropTypes.string.isRequired,
@@ -16,18 +15,18 @@ class InfoPane extends Component {
 
     render() {
         return (
-                <Panel>
-                    <Panel.Heading>
-                        <Panel.Title toggle>
-                            {this.props.heading}
-                        </Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Collapse>
-                        <Panel.Body>
-                            {this.props.children}
-                        </Panel.Body>
-                    </Panel.Collapse>
-                </Panel>
+            <Panel>
+                <Panel.Heading>
+                    <Panel.Title toggle>
+                        {this.props.heading}
+                    </Panel.Title>
+                </Panel.Heading>
+                <Panel.Collapse>
+                    <Panel.Body>
+                        {this.props.children}
+                    </Panel.Body>
+                </Panel.Collapse>
+            </Panel>
         );
     }
 }

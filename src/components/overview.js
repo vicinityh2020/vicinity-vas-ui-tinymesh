@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Col, Row, Table} from 'react-bootstrap';
 import RoomInfo from "./overviewRow";
 import update from 'immutability-helper';
+import moment from 'moment';
 
 class Overview extends Component {
 
@@ -12,6 +13,7 @@ class Overview extends Component {
             rooms: null
         };
         this.cleanRoom = this.cleanRoom.bind(this);
+        this.updateRoomInfo = this.updateRoomInfo.bind(this);
     }
 
     cleanRoom(roomNumber) {
@@ -27,26 +29,25 @@ class Overview extends Component {
         });
     }
 
-    fetchRoomOverview() {
+    updateRoomInfo() {
         fetch('/adapter/room-overview', {
             credentials: "include",
-            headers: {
-
-            }
+            headers: {}
         }).then(value => {
             return value.json();
         }).then(json => {
-            console.log(json);
             let roomOverview = json;
-            for (let obj of roomOverview){
-                obj['lastCleaned'] = new Date();
+            for (let room of roomOverview) {
+                if(room['lastCleaned'] !== 'Never'){
+                    room['lastCleaned'] = moment(room['lastCleaned']).fromNow();
+                }
             }
             this.setState({rooms: roomOverview})
-        }).catch(reason => console.log(reason))
+        })
     }
 
-    componentDidMount(){
-        this.fetchRoomOverview()
+    componentDidMount() {
+        this.updateRoomInfo()
     }
 
     render() {
@@ -66,7 +67,8 @@ class Overview extends Component {
                             </thead>
                             <tbody>
                             {this.state.rooms.map((room) => {
-                                return (<RoomInfo key={room.number} room={room} setRoomState={this.cleanRoom}/>)
+                                return (<RoomInfo key={room.number} room={room} setRoomState={this.cleanRoom}
+                                                  updateRooms={this.updateRoomInfo}/>)
                             })}
                             </tbody>
                         </Table>) : (<p>Nothing to show</p>)}

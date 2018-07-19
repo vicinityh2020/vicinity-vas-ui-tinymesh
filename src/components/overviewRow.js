@@ -7,19 +7,20 @@ import {Link} from "react-router-dom";
 class RoomInfo extends Component {
     static propTypes = {
         room: PropTypes.object,
-        setRoomState: PropTypes.func
+        setRoomState: PropTypes.func,
+        updateRooms: PropTypes.func
     };
 
     constructor(props) {
         super(props);
-        this.state= {
+        this.state = {
             showInfo: false
         };
 
         this.toggleInfo = this.toggleInfo.bind(this)
     }
 
-    toggleInfo(){
+    toggleInfo() {
         this.setState(
             {showInfo: !this.state.showInfo}
         );
@@ -44,7 +45,8 @@ class RoomInfo extends Component {
                 <ModalInfo room={room}
                            toggleInfo={this.toggleInfo}
                            show={this.state.showInfo}
-                           setRoomState={this.props.setRoomState}/>
+                           setRoomState={this.props.setRoomState}
+                           updateRoom={this.props.updateRooms}/>
             </tr>
         );
     }

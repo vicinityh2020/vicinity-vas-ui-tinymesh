@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Col, ListGroup, ListGroupItem, PageHeader, Row} from 'react-bootstrap';
 import InfoPane from './panel'
+import moment from 'moment';
 
 class RoomHistory extends Component {
     static propTypes = {
@@ -16,7 +17,7 @@ class RoomHistory extends Component {
         }
     }
 
-    async fetchHistory(){
+    async fetchHistory() {
         await fetch(`/adapter/clean-room/${this.props.match.params.roomNumber}`, {
             method: 'GET'
         }).then(value => {
@@ -24,9 +25,9 @@ class RoomHistory extends Component {
         }).then(json => {
             json.sort((a, b) => {
                 // + sign before date forces to get unix timestamp
-                if (+(new Date(a.datetime) > +(new Date(b.datetime)))){
+                if (+(new Date(a.datetime) > +(new Date(b.datetime)))) {
                     return -1
-                } else if (+(new Date(a.datetime) === +(new Date(b.datetime)))){
+                } else if (+(new Date(a.datetime) === +(new Date(b.datetime)))) {
                     return 0
                 } else {
                     return 1
@@ -36,8 +37,8 @@ class RoomHistory extends Component {
         })
     }
 
-    infoHeading(cleaningEvent){
-        return  cleaningEvent.cleanedBy + " at "+ cleaningEvent.datetime
+    infoHeading(cleaningEvent) {
+        return cleaningEvent.cleanedBy + " at " + moment(cleaningEvent.datetime).toString()
     }
 
     renderHistory() {
@@ -50,7 +51,7 @@ class RoomHistory extends Component {
                         heading={this.infoHeading(value)}>
                         <ListGroup>
                             <ListGroupItem header={'Date'}>
-                                {value.datetime.toString()}
+                                {moment(value.datetime).toString()}
                             </ListGroupItem>
                             <ListGroupItem header={'Number of visits before cleaning'}>
                                 {value.visits}
@@ -71,7 +72,7 @@ class RoomHistory extends Component {
         });
     }
 
-    loading(){
+    loading() {
         return (
             <Row>
                 <Col xs={12}>
@@ -81,7 +82,7 @@ class RoomHistory extends Component {
         )
     }
 
-    loaded(){
+    loaded() {
         return (
             <Row>
                 <Col xs={12}>
@@ -89,12 +90,12 @@ class RoomHistory extends Component {
                         History for Room {this.props.match.params.roomNumber}
                     </PageHeader>
                 </Col>
-                {this.state.history ? this.renderHistory(): this.noEvents()}
+                {this.state.history ? this.renderHistory() : this.noEvents()}
             </Row>
         )
     }
 
-    componentDidMount(){
+    componentDidMount() {
         (async () => await this.fetchHistory())()
     }
 
@@ -104,7 +105,7 @@ class RoomHistory extends Component {
 
     render() {
         return (
-            <div>{this.state.history ? this.loaded(): this.loading()}</div>
+            <div>{this.state.history ? this.loaded() : this.loading()}</div>
         )
     }
 }

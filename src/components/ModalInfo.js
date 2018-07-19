@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Glyphicon, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import PropTypes from "prop-types";
-import { Cookies } from 'react-cookie';
+import {Cookies} from 'react-cookie';
 
 const GlyphOK = () => {
     return (<Glyphicon glyph="ok" className={"green"}/>);
@@ -12,22 +12,20 @@ const GlyphNotOk = () => {
 };
 
 class ModalInfo extends Component {
-    constructor(props) {
-
-        super(props);
-        this.updateRoom = this.updateRoom.bind(this);
-    }
-
     static propTypes = {
         room: PropTypes.object,
         show: PropTypes.bool,
         toggleInfo: PropTypes.func,
         setRoomState: PropTypes.func,
+        updateRoom: PropTypes.func
     };
 
+    constructor(props) {
+        super(props);
+        this.updateRoom = this.updateRoom.bind(this);
+    }
+
     updateRoom() {
-        // this.props.toggleInfo();
-        // this.props.setRoomState(this.props.room.number);
         (async () => {
             let cookie = new Cookies();
             let csrf = cookie.get('csrftoken');
@@ -39,10 +37,9 @@ class ModalInfo extends Component {
                     'X-CSRFToken': csrf,
                 },
                 body: JSON.stringify(this.props.room)
-            }).then(value => value.json())
-              .then(json => console.log(json))
-              .catch(reason => console.log(reason));
+            }).then(value => value.json());
             this.props.toggleInfo();
+            this.props.updateRoom();
         })();
     }
 

@@ -1,10 +1,5 @@
 import React, {Component} from 'react';
-import {ControlLabel, Form, Row} from "react-bootstrap";
-import {FormGroup} from "react-bootstrap";
-import {Col} from "react-bootstrap";
-import {FormControl} from "react-bootstrap";
-import {Checkbox} from "react-bootstrap";
-import {Button} from "react-bootstrap";
+import {Button, Checkbox, Col, ControlLabel, Form, FormControl, FormGroup, Row} from "react-bootstrap";
 
 class Login extends Component {
     render() {

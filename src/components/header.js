@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Nav, Navbar, NavItem} from 'react-bootstrap';
 
 class Header extends Component {
@@ -9,7 +9,7 @@ class Header extends Component {
                     <Navbar.Brand>
                         <a href="/">Predictive Operations</a>
                     </Navbar.Brand>
-                    <Navbar.Toggle />
+                    <Navbar.Toggle/>
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
@@ -25,4 +25,5 @@ class Header extends Component {
         );
     }
 }
+
 export default Header;

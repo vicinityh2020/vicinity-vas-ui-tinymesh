@@ -15,11 +15,11 @@
   "dependencies": {
     "immutability-helper": "^2.7.0",
     "moment": "^2.22.2",
-    "prop-types": "^15.6.1",
-    "react": "^16.4.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.0",
     "react-bootstrap": "^0.32.1",
     "react-cookie": "^2.2.0",
-    "react-dom": "^16.4.0",
+    "react-dom": "^16.5.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4"
